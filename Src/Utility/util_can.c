@@ -148,12 +148,13 @@ void Can_RxMessageCallback(CAN_HandleTypeDef* phcan, CAN_RxHeaderTypeDef* rxhead
         Motor_EncoderDecodeCallback(phcan, rxheader -> StdId, rxdata, rxheader -> DLC);
     }
     if (phcan == &hcan2) {
-//        Protocol_DecodeData(rxheader->StdId, rxdata, rxheader->DLC);
-        // 达妙 DM4310（Pitch）反馈帧（参考 Omni：mst_id=0x00）
-        if (rxheader->IDE == CAN_ID_STD && rxheader->StdId == motor[Motor1].mst_id && rxheader->DLC == 8) {
-            dm_motor_fbdata(&motor[Motor1], rxdata);
-            return;
-        }
-        Motor_EncoderDecodeCallback(phcan, rxheader -> StdId, rxdata, rxheader -> DLC);
+ if( rxheader -> StdId==0x00)
+	  {
+		dm_motor_fbdata(&motor[Motor1], rxdata); 
+ 
+	  }else  
+        {
+			Motor_EncoderDecodeCallback(phcan, rxheader -> StdId, rxdata, rxheader -> DLC);
+		} 
     }
 }

@@ -30,7 +30,6 @@ void Gimbal_Task(void const * argument) {       //最高优先级   哨兵的任
         GimbalPitch_Control();
 		GimbalYaw_Control();
 		Shooter_FeederControl();
-        GimbalPitch_Output();
         GimbalYaw_Output();
         dm_motor_ctrl_send(&hcan2, &motor[Motor1]);
       osDelay(1);

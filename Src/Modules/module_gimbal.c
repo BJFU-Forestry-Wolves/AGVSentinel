@@ -296,10 +296,8 @@ void GimbalPitch_Control() {
     if (target_deg > Const_PITCH_UMAXANGLE) target_deg = Const_PITCH_UMAXANGLE;
     if (target_deg < Const_PITCH_DMAXANGLE) target_deg = Const_PITCH_DMAXANGLE;
 
-    motor[Motor1].ctrl.pos_set = target_deg * 3.1415926f / 180.0f;
-    // 保留 vel/tor 为 0，由 kp/kd 决定刚度与阻尼
-    motor[Motor1].ctrl.vel_set = 0.0f;
-    motor[Motor1].ctrl.tor_set = 0.0f;
+    motor[Motor1].ctrl.pos_set = 1.6;
+	LimitMaxMin(motor[Motor1].ctrl.pos_set, 1.92,1.35);
 }
 /**
   * @brief      Control function of gimbal yaw���������������̶����� 0�㣨��ǰ��
@@ -358,19 +356,7 @@ void GimbalYaw_Output(void) {
     Motor_SendMotorGroupOutput(&Motor_Big_YawMotors);
 }
 
-/**
-  * @brief      Gimbal pitch output function
-  * @param      NULL
-  * @retval     NULL
-  */
-void GimbalPitch_Output() {
-    GimbalPitch_GimbalPitchTypeDef *gimbalpitch = GimbalPitch_GetGimbalPitchPtr();
-    GimbalYaw_GimbalYawTypeDef *gimbalyaw = GimbalYaw_GetGimbalYawPtr();
-	
-    // Pitch 由达妙 DM4310 在 app_gimbal 任务中通过 dm_motor_ctrl_send() 下发，这里不再发 DJI Pitch 组
-    (void)gimbalpitch;
-    (void)gimbalyaw;
-}
+
 ///**
 //  * @brief      Gimbal yaw output function
 //  * @param      NULL

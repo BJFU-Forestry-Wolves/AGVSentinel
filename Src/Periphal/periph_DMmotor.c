@@ -44,7 +44,7 @@ void dm_motor_init(void) {
     motor[Motor1].mst_id = 0x00;
     motor[Motor1].tmp.read_flag = 1;
     motor[Motor1].ctrl.mode = mit_mode;
-    motor[Motor1].ctrl.pos_set = 0.32f;
+    motor[Motor1].ctrl.pos_set = 1.6f;
     motor[Motor1].ctrl.vel_set = 6.5f;
     motor[Motor1].ctrl.kp_set = 120.0f;
     motor[Motor1].ctrl.kd_set = 3.0f;
@@ -152,6 +152,6 @@ void dm_motor_detect(DMmotor_t *motor)
 		return;
 	else
 	{
-	  dm_motor_enable(&hcan1, &motor[Motor1]);	
+	  dm_motor_enable(&hcan2, &motor[Motor1]);	
 	}
 }
