@@ -1,0 +1,65 @@
+# .gitignore — RoboMaster/STM32 项目专用配置
+
+# 1. 常见 IDE 与编辑器配置
+.vscode/
+.vs/
+.idea/
+*.iml
+*.kwb
+*.watch
+*.uvguix.*
+*.uvoptx    # Keil 用户调试配置（断点、窗口位置等），通常不提交
+*.scvd      # Keil 组件视图描述文件
+JLinkLog.txt
+.DS_Store
+Thumbs.db
+
+# 2. 编译产生的中间目录 (Keil 默认)
+Objects/
+Listings/
+build/
+Build/
+Debug/
+Release/
+obj/
+out/
+
+# 3. 具体的编译中间文件 (垃圾文件)
+*.o
+*.d
+*.crf
+*.dep
+*.map       # 链接映射文件 (如果需要分析内存分布，可手动从这行删除)
+*.lst
+*.bak
+*.sct       # 分散加载文件 (一般由 Keil 自动生成，如果是手写的请注释掉这行)
+*.iex
+*.lnp
+*.srec
+*.htm
+*.tmp
+*.log
+
+# 4. 编译产物 (二进制/可执行文件)
+# 注意：如果你希望直接提交固件供队友烧录，请在下面对应行前加 # 注释掉
+*.axf
+*.elf
+# *.hex     # 建议保留 hex/bin 方便机械组队友直接烧录，所以我注释掉了这行
+# *.bin
+
+# 5. 库文件特殊处理 (修复 L6002U 报错的关键)
+*.lib       # 先忽略所有 lib
+!Src/*.lib  # 但绝不忽略 Src 目录下的 lib (如 CMSIS-DSP)
+
+# 6. RTE 环境配置 (保留配置文件，忽略生成文件)
+RTE/
+**/RTE/
+!RTE/**/*.h # 强制保留 RTE 目录下的头文件配置
+
+# 7. 备份文件
+*~
+*.swp
+*.orig
+.backup/
+
+# End of .gitignore
