@@ -77,9 +77,9 @@ const float Const_YAW_AUTOADD														= 200.0f;
 const float Const_PITCH_AUTOADD													= 5.0f;
 int   Const_ADD_MAX																= 2000;
 
-float Const_PITCH_UMAXANGLE                       = 30.0f;//上限位
-float Const_PITCH_UMAXANGLE_GRYO                  = 28.0f;  //陀螺模式上限位
-float Const_PITCH_DMAXANGLE                       = -28.0f;//下限位
+float Const_PITCH_UMAXANGLE                       = 1.92f;//上限位
+float Const_PITCH_UMAXANGLE_GRYO                  = 1.92f;  //陀螺模式上限位
+float Const_PITCH_DMAXANGLE                       = 1.35f;//下限位
 float Const_YAW_MAXANGLE                          = 40.0f; //在普通模式下把 yaw 可偏转范围限制在一个最大角度
 float Const_PITCH_MOTOR_INIT_OFFSETf              = 0.0f;
 
@@ -87,7 +87,7 @@ float Const_PITCH_MOTOR_INIT_OFFSETf              = 0.0f;
  * 校准：上电后 yaw 不转，用手把云台 yaw 掰到“正前方”，用调试读 Motor_Big_YawMotor.encoder.limited_angle 填入下面 */
 const float Const_GimbalBigYawAngleOffset          = 0.0f;
 /* 云台小 yaw 零位(deg)：锁死目标 = (limited_angle - offset) == 0 */
-const float Const_GimbalSmallYawAngleOffset        = 95.0f;
+const float Const_GimbalSmallYawAngleOffset        = 296.0f;
 
 // DM4310 (Pitch) on CAN2
 const uint16_t Const_DM4310_PitchMotorId           = 0x01;
@@ -105,7 +105,7 @@ const float Const_GimbalYawSpdParam[4][5] = {
     {1.0f, 0, 0, 0, 20.0f}, {0.1f, -1}, {0, 0}, {-1, -1}};//20
 
 const float Const_GimbalYawAngParam[4][5] = {
-    {0.4f, 0, 0, 0, 10.0f}, {0.1f, -1}, {0, 0}, {-1, -1}};//5
+    {0.4f, 0, 0, 0, 15.0f}, {0.1f, -1}, {0, 0}, {-1, -1}};//5
 
 
 // shooter param

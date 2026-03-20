@@ -213,8 +213,9 @@ void Remote_RemoteShooterModeSet() {
     buscomm->yaw_ref += Gimbal_LimitYaw((float)data->remote.ch[2] * -Const_WHEELLEG_REMOTE_YAW_GAIN + (float)visionDataGet.yaw_angle.yaw_predict *0.01f*0.004f);
 		GimbalYaw_SetYawRef(buscomm->yaw_ref);
     float pitch_ref;
-    pitch_ref = (float)data->remote.ch[3] * REMOTE_PITCH_ANGLE_TO_REF+ (float)visionDataGet.pitch_angle.pitch_predict*0.01f*0.002f;
-    GimbalPitch_SetPitchRef(Gimbal_LimitPitch(-pitch_ref));
+    pitch_ref = (float)data->remote.ch[3] * REMOTE_PITCH_ANGLE_TO_REF;//+ (float)visionDataGet.pitch_angle.pitch_predict*0.01f*0.002f;
+    float cospitch = pitch_ref*PI/180.0f;
+	GimbalPitch_SetPitchRef(cospitch);
 		
 		Chassis_SetChassisMode(Chassis_SEP);
 		Chassis_SetChassisRef((float)data->remote.ch[1]  , (float)data->remote.ch[0] , 0);

@@ -46,9 +46,9 @@ void dm_motor_init(void) {
     motor[Motor1].ctrl.mode = mit_mode;
     motor[Motor1].ctrl.pos_set = 1.6f;
     motor[Motor1].ctrl.vel_set = 6.5f;
-    motor[Motor1].ctrl.kp_set = 120.0f;
-    motor[Motor1].ctrl.kd_set = 3.0f;
-    motor[Motor1].ctrl.tor_set = 3.0f;
+    motor[Motor1].ctrl.kp_set = 20.0f;
+    motor[Motor1].ctrl.kd_set = 0.2f;
+    motor[Motor1].ctrl.tor_set = 2.0f;
     motor[Motor1].ctrl.cur_set = 0.0f;
     motor[Motor1].tmp.PMAX = 12.5f;
     motor[Motor1].tmp.VMAX = 30.0f;

@@ -179,15 +179,9 @@ void GimbalYaw_SetGimbalYawOutputState(uint8_t state) {
   */
 void GimbalPitch_SetPitchRef(float pitch_ref) {
     GimbalPitch_GimbalPitchTypeDef *gimbalpitch = GimbalPitch_GetGimbalPitchPtr();
-    
-    // 遥控/视觉增量先累加到 pitch_ref，再对 pitch_ref 本身做机械角度限幅，//这里是因为没有对pitch_ref限位,导致到机械限位之后还在累加积分
-    // 避免长时间推到限位时内部目标无限积分，导致反向需要“还账”很久才开始动作。
-    gimbalpitch->pitch_ref += pitch_ref;
-    if (gimbalpitch->pitch_ref > Const_PITCH_UMAXANGLE) {
-        gimbalpitch->pitch_ref = Const_PITCH_UMAXANGLE;
-    } else if (gimbalpitch->pitch_ref < Const_PITCH_DMAXANGLE) {
-        gimbalpitch->pitch_ref = Const_PITCH_DMAXANGLE;
-    }
+   
+	gimbalpitch->pitch_ref += pitch_ref; 
+   LimitMaxMin(gimbalpitch->pitch_ref, 1.92,1.2);
 }
 /**
   * @brief      Set the target value of gimbal yaw
@@ -277,7 +271,7 @@ void GimbalYaw_SetIMUYawSpeedFdb(float imu_yaw_speed_fdb) {
     gimbalyaw->yaw_speed_fdb = imu_yaw_speed_fdb;
 }
 
-
+float TESTimu_error;
 /**
   * @brief      Control function of gimbal pitch
   * @param      NULL
@@ -289,14 +283,11 @@ void GimbalPitch_Control() {
 
     if (gimbalpitch->control_state != 1) return;
 
-    // 恢复为“简单限幅 + 直接写 DM 目标”的方案：
-    // pitch_ref 按角度(deg)，先按照原有 PITCH 上下限做机械限幅，再转为 rad 写入 DM4310。
-    (void)ins;
-    float target_deg = gimbalpitch->pitch_ref;
-    if (target_deg > Const_PITCH_UMAXANGLE) target_deg = Const_PITCH_UMAXANGLE;
-    if (target_deg < Const_PITCH_DMAXANGLE) target_deg = Const_PITCH_DMAXANGLE;
-
-    motor[Motor1].ctrl.pos_set = 1.6;
+     float imu_error = ins->Roll * PI / 180.0f + Const_PITCH_MOTOR_INIT_OFFSETf;
+	TESTimu_error =ins->Roll * PI / 180.0f + Const_PITCH_MOTOR_INIT_OFFSETf;
+    float target_pos = gimbalpitch->pitch_ref - imu_error;
+    
+    motor[Motor1].ctrl.pos_set = target_pos;
 	LimitMaxMin(motor[Motor1].ctrl.pos_set, 1.92,1.35);
 }
 /**

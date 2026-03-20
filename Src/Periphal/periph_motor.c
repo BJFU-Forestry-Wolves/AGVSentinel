@@ -81,13 +81,13 @@ void Motor_InitAllMotors() {
 	
     // 云台 Yaw：两颗 6020 共用 CAN2 的 0x1FF 帧
     // 0x1FF 数据槽映射: [0]=0x205, [1]=0x206, [2]=0x207, [3]=0x208
-    // 大 yaw: 0x206 -> motor_handle[1]; 小 yaw: 0x207 -> motor_handle[2]
+    // 大 yaw: 0x207 -> motor_handle[2]; 小 yaw: 0x206 -> motor_handle[1]
     Motor_groupHandle[0] = &Motor_Big_YawMotors;
     Motor_InitMotorGroup(&Motor_Big_YawMotors, Motor_TYPE_RM6020, 3, &hcan2, 0x1FF);
-    Motor_InitMotor(&Motor_Big_YawMotor, Motor_TYPE_RM6020, 0x206, 0.1, gm6020_encoder_callback);
-    Motor_InitMotor(&Motor_Small_YawMotor, Motor_TYPE_RM6020, 0x207, 0.1, gm6020_encoder_callback);
-    Motor_Big_YawMotors.motor_handle[1] = &Motor_Big_YawMotor;
-    Motor_Big_YawMotors.motor_handle[2] = &Motor_Small_YawMotor;
+    Motor_InitMotor(&Motor_Big_YawMotor, Motor_TYPE_RM6020, 0x207, 0.1, gm6020_encoder_callback);
+    Motor_InitMotor(&Motor_Small_YawMotor, Motor_TYPE_RM6020, 0x206, 0.1, gm6020_encoder_callback);
+    Motor_Big_YawMotors.motor_handle[1] = &Motor_Small_YawMotor;
+    Motor_Big_YawMotors.motor_handle[2] = &Motor_Big_YawMotor;
 
 
 	
